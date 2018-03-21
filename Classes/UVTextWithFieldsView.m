@@ -87,7 +87,7 @@
     label.textColor = [UVStyleSheet instance].placeholderColor;
     [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     UIView *separator = [UIView new];
-    separator.backgroundColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.f];
+    separator.backgroundColor = [UVStyleSheet instance].separatorLine;
     [UVUtils configureView:container
                   subviews:NSDictionaryOfVariableBindings(field, label, separator)
                constraints:@[@"|[label]-[field]|", @"|[separator]|", @"V:|-12-[label]", @"V:|-12-[field]", @"V:[separator(==1)]|"]];

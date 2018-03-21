@@ -97,10 +97,12 @@
     self.navigationItem.title = NSLocalizedStringFromTableInBundle(@"Add a comment", @"UserVoice", [UserVoice bundle], nil);
     UIView *view = [UIView new];
     view.frame = [self contentFrame];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UVStyleSheet instance].cellBackground;
 
     _fieldsView = [UVTextWithFieldsView new];
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Write a comment...", @"UserVoice", [UserVoice bundle], nil);
+    _fieldsView.textView.placeholderLabel.textColor = [UVStyleSheet instance].placeholderColor;
+    _fieldsView.textView.textColor = [UVStyleSheet instance].textMain;
     if (![UVSession currentSession].user) {
         _emailField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Email", @"UserVoice", [UserVoice bundle], nil)];
         _emailField.placeholder = NSLocalizedStringFromTableInBundle(@"(required)", @"UserVoice", [UserVoice bundle], nil);
@@ -108,12 +110,12 @@
         _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
         _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _emailField.text = self.userEmail;
-        _emailField.textColor = [UVStyleSheet instance].textViewTextColor;
+        _emailField.textColor = [UVStyleSheet instance].textMain;
 
         _nameField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Name", @"UserVoice", [UserVoice bundle], nil)];
         _nameField.placeholder = NSLocalizedStringFromTableInBundle(@"“Anonymous”", @"UserVoice", [UserVoice bundle], nil);
         _nameField.text = self.userName;
-        _nameField.textColor = [UVStyleSheet instance].textViewTextColor;
+        _nameField.textColor = [UVStyleSheet instance].textMain;
     }
 
     [self configureView:view

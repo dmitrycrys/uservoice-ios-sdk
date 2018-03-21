@@ -28,7 +28,7 @@
 
 - (void)loadView {
     UIView *view = [UIView new];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UVStyleSheet instance].cellBackground;
     view.frame = [self contentFrame];
 
     [self registerForKeyboardNotifications];
@@ -44,6 +44,8 @@
     // using a fields view with no fields extra still gives us better scroll handling
     _fieldsView = [UVTextWithFieldsView new];
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Give feedback or ask for help...", @"UserVoice", [UserVoice bundle], nil);
+    _fieldsView.textView.placeholderLabel.textColor = [UVStyleSheet instance].placeholderColor;
+    _fieldsView.textView.textColor = [UVStyleSheet instance].textMain;
     _fieldsView.textViewDelegate = self;
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView)

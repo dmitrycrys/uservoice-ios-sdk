@@ -28,8 +28,8 @@
 
 - (void)loadView {
     UIView *view = [UIView new];
-    view.backgroundColor = [UIColor whiteColor];
     view.frame = [self contentFrame];
+    view.backgroundColor = [UVStyleSheet instance].cellBackground;
     _instantAnswerManager = [UVInstantAnswerManager new];
     _instantAnswerManager.delegate = self;
     _instantAnswerManager.articleHelpfulPrompt = NSLocalizedStringFromTableInBundle(@"Do you still want to post your own idea?", @"UserVoice", [UserVoice bundle], nil);
@@ -41,7 +41,7 @@
 
     _fieldsView = [UVTextWithFieldsView new];
     _titleField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Title", @"UserVoice", [UserVoice bundle], nil)];
-    _titleField.textColor = [UVStyleSheet instance].textViewTextColor;
+    _titleField.textColor = [UVStyleSheet instance].textMain;
     if (_initialText) {
         _titleField.text = _initialText;
     }
@@ -52,6 +52,8 @@
     }];
 
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Description (optional)", @"UserVoice", [UserVoice bundle], nil);
+    _fieldsView.textView.placeholderLabel.textColor = [UVStyleSheet instance].placeholderColor;
+    _fieldsView.textView.textColor = [UVStyleSheet instance].textMain;
 
     UIView *sep = [UIView new];
     sep.backgroundColor = [UVStyleSheet instance].separatorLine;
