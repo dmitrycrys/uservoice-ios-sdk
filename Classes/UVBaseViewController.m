@@ -180,13 +180,13 @@
     UILabel *uv = [UILabel new];
     uv.text = NSLocalizedStringFromTableInBundle(@"Powered by UserVoice", @"UserVoice", [UserVoice bundle], nil);
     uv.font = [UIFont systemFontOfSize:13];
-    uv.textColor = [UIColor grayColor];
+    uv.textColor = [UVStyleSheet instance].placeholderColor;
     uv.backgroundColor = [UIColor clearColor];
     uv.textAlignment = NSTextAlignmentCenter;
     UILabel *version = [UILabel new];
     version.text = [NSString stringWithFormat:@"iOS SDK v%@", [UserVoice version]];
     version.font = [UIFont systemFontOfSize:13];
-    version.textColor = [UIColor lightGrayColor];
+    version.textColor = [UVStyleSheet instance].placeholderColor;
     version.textAlignment = NSTextAlignmentCenter;
     version.backgroundColor = [UIColor clearColor];
     [self configureView:power
@@ -248,17 +248,21 @@
 #pragma mark ===== helper methods for table views =====
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
+    cell.tintColor = [UVStyleSheet instance].actionTintColor;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
+    UIImage *heartImage = [[UVUtils imageNamed:@"uv_heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImageView *heart = [[UIImageView alloc] initWithImage:heartImage];
+    heart.tintColor = [UVStyleSheet instance].redMain;
     UILabel *subs = [UILabel new];
     subs.font = [UIFont systemFontOfSize:14];
-    subs.textColor = [UIColor grayColor];
+    subs.textColor = [UVStyleSheet instance].redMain;
     subs.tag = SUBSCRIBER_COUNT;
     UILabel *title = [UILabel new];
     title.numberOfLines = 0;
     title.tag = TITLE;
     title.font = [UIFont systemFontOfSize:17];
+    title.textColor = [UVStyleSheet instance].textMain;
     UILabel *status = [UILabel new];
     status.font = [UIFont systemFontOfSize:11];
     status.tag = STATUS;
@@ -308,7 +312,10 @@
     UITableViewCell *cell = [theTableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:identifier];
-        cell.selectionStyle = selectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
+        UIView *selectedBackgorundView = [UIView new];
+        selectedBackgorundView.backgroundColor = [UVStyleSheet instance].selectionColor;
+        cell.selectionStyle = selectable ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone;
+        [cell setSelectedBackgroundView:selectedBackgorundView];
 
         SEL initCellSelector = NSSelectorFromString([NSString stringWithFormat:@"initCellFor%@:indexPath:", identifier]);
         if ([self respondsToSelector:initCellSelector]) {
@@ -579,7 +586,7 @@
     UILabel *label = [UILabel new];
     label.text = [NSString stringWithFormat:@"%@:", labelText];
     label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor grayColor];
+    label.textColor = [UVStyleSheet instance].placeholderColor;
     [label setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(field, label)

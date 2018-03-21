@@ -26,4 +26,27 @@
 @property (nonatomic, retain) UIColor *loadingViewBackgroundColor;
 @property (nonatomic, assign) UIStatusBarStyle preferredStatusBarStyle;
 
+#pragma mark - Additional property for setting
+
+@property (nonatomic, retain) UIColor *textViewTextColor;
+@property (nonatomic, retain) UIColor *textMain;
+@property (nonatomic, retain) UIColor *placeholderColor;
+
+@property (nonatomic, retain) UIColor *cellBackground;
+@property (nonatomic, retain) UIColor *tableViewBackground;
+@property (nonatomic, retain) UIColor *toolbarBackground;
+@property (nonatomic, retain) UIColor *separatorLine;
+
+@property (nonatomic, retain) UIColor *selectionColor;
+
+@property (nonatomic, retain) UIColor *actionTintColor;
+@property (nonatomic, retain) UIColor *disabledActionTintColor;
+
+//The tint color to apply to the search bar background.
+@property (nonatomic, retain) UIColor *searchBarBarTintColor;
+//The tint color to apply to key elements in the search bar.
+@property (nonatomic, retain) UIColor *searchBarTintColor;
+
+@property (nonatomic, retain) UIColor *redMain;
+
 @end

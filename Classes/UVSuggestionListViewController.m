@@ -41,6 +41,7 @@
     UITableViewCell *_templateCell;
     UILabel *_loadingLabel;
     BOOL _loading;
+    UITextField *_searchTextField;
 }
 
 - (id)init {
@@ -48,6 +49,15 @@
         _forum = [UVSession currentSession].forum;
     }
     return self;
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    if (!_searchTextField) {
+        _searchTextField = [_searchController.searchBar valueForKey:@"searchField"];
+        _searchTextField.layer.cornerRadius = 10.f;
+        _searchTextField.layer.masksToBounds = YES;
+    }
 }
 
 - (void)retrieveMoreSuggestions {
@@ -87,11 +97,9 @@
 #pragma mark ===== UITableViewDataSource Methods =====
 
 - (void)initCellForAdd:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Post an idea", @"UserVoice", [UserVoice bundle], nil);
-    if (IOS7) {
-        cell.textLabel.textColor = cell.textLabel.tintColor;
-    }
+    cell.textLabel.textColor = [UVStyleSheet instance].actionTintColor;
 }
 
 - (void)customizeCellForSuggestion:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
@@ -99,8 +107,9 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
+    label.textColor = [UVStyleSheet instance].textMain;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
@@ -150,10 +159,20 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0 && [UVSession currentSession].config.showPostIdea) {
-            return nil;
+        return nil;
     } else {
         return _forum.prompt;
     }
+}
+
+- (void) tableView: (UITableView*) tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if(![view isKindOfClass:[UITableViewHeaderFooterView class]]){
+        return;
+    }
+    
+    UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
+    UILabel* label = tableViewHeaderFooterView.textLabel;
+    label.textColor = [UVStyleSheet instance].textMain;
 }
 
 - (void)showSuggestion:(UVSuggestion *)suggestion {
@@ -220,6 +239,8 @@
     _searchController.searchResultsUpdater = self;
     _searchController.searchBar.delegate = self;
     _searchController.searchBar.placeholder = NSLocalizedStringFromTableInBundle(@"Search forum", @"UserVoice", [UserVoice bundle], nil);
+    [_searchController.searchBar setSearchTextPositionAdjustment:UIOffsetMake(8, 0)];
+    
     if (FORMSHEET) {
         _searchController.hidesNavigationBarDuringPresentation = false;
     }

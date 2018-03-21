@@ -41,6 +41,7 @@
 
     _fieldsView = [UVTextWithFieldsView new];
     _titleField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Title", @"UserVoice", [UserVoice bundle], nil)];
+    _titleField.textColor = [UVStyleSheet instance].textViewTextColor;
     if (_initialText) {
         _titleField.text = _initialText;
     }
@@ -53,15 +54,15 @@
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Description (optional)", @"UserVoice", [UserVoice bundle], nil);
 
     UIView *sep = [UIView new];
-    sep.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.f];
+    sep.backgroundColor = [UVStyleSheet instance].separatorLine;
 
     UIView *bg = [UIView new];
-    bg.backgroundColor = [UIColor colorWithRed:0.937f green:0.937f blue:0.957f alpha:1.f];
+    bg.backgroundColor = [UVStyleSheet instance].toolbarBackground;
 
     UILabel *desc = [UILabel new];
     desc.backgroundColor = [UIColor clearColor];
     desc.text = NSLocalizedStringFromTableInBundle(@"When you post an idea on our forum, others will be able to subscribe to it and make comments. When we respond to the idea, you'll get notified.", @"UserVoice", [UserVoice bundle], nil);
-    desc.textColor = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f];
+    desc.textColor = [UVStyleSheet instance].placeholderColor;
     desc.numberOfLines = 0;
     desc.font = [UIFont systemFontOfSize:12];
     self.desc = desc;

@@ -8,6 +8,7 @@
 
 #import "UVTextView.h"
 #import "UVDefines.h"
+#import "UVStyleSheet.h"
 
 @implementation UVTextView {
     BOOL _constraintsAdded;
@@ -20,6 +21,7 @@
         
         self.contentSize = CGSizeMake(0, 20);
         self.font = [UIFont systemFontOfSize:15];
+        self.textColor = [UVStyleSheet instance].textViewTextColor;
         _placeholderLabel = [UILabel new];
         _placeholderLabel.font = self.font;
         _placeholderLabel.textColor = IOS7 ? [UIColor colorWithRed:0.78f green:0.78f blue:0.80f alpha:1.0f] : [UIColor colorWithWhite:0.702f alpha:1.0f];

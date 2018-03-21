@@ -47,6 +47,16 @@
     return [self sectionIsArticles:section] ? NSLocalizedStringFromTableInBundle(@"Related articles", @"UserVoice", [UserVoice bundle], nil) : NSLocalizedStringFromTableInBundle(@"Related feedback", @"UserVoice", [UserVoice bundle], nil);
 }
 
+- (void) tableView: (UITableView*) tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if(![view isKindOfClass:[UITableViewHeaderFooterView class]]){
+        return;
+    }
+    
+    UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
+    UILabel* label = tableViewHeaderFooterView.textLabel;
+    label.textColor = [UVStyleSheet instance].textMain;
+}
+
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     NSArray *results = [self resultsForSection:indexPath.section];

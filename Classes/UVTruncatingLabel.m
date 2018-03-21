@@ -30,12 +30,11 @@
         _moreLabel = [UILabel new];
         _moreLabel.text = NSLocalizedStringFromTableInBundle(@"more", @"UserVoice", [UserVoice bundle], nil);
         _moreLabel.font = [UIFont systemFontOfSize:12];
+        _moreLabel.tintColor = [UVStyleSheet instance].actionTintColor;
+        _moreLabel.textColor = [UVStyleSheet instance].actionTintColor;
         _moreLabel.backgroundColor = [UIColor clearColor];
         _moreLabel.hidden = YES;
-        if (IOS7) {
-            // TODO hardcode blue for ios6 ??
-            _moreLabel.textColor = self.tintColor;
-        }
+        
         [UVUtils configureView:self subviews:@{@"more":_moreLabel, @"label":_label} constraints:@[@"|[label]|", @"[more]|", @"V:|[label]|", @"V:[more]-(1)-|"]];
     }
     return self;

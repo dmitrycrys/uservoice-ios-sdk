@@ -168,18 +168,18 @@
     UILabel *name = [UILabel new];
     name.tag = COMMENT_NAME_TAG;
     name.font = [UIFont boldSystemFontOfSize:13];
-    name.textColor = [UIColor colorWithRed:0.19f green:0.20f blue:0.20f alpha:1.0f];
+    name.textColor = [UVStyleSheet instance].textMain;
 
     UILabel *date = [UILabel new];
     date.tag = COMMENT_DATE_TAG;
     date.font = [UIFont systemFontOfSize:12];
-    date.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+    date.textColor = [UVStyleSheet instance].placeholderColor;
 
     UILabel *text = [UILabel new];
     text.tag = COMMENT_TEXT_TAG;
     text.numberOfLines = 0;
     text.font = [UIFont systemFontOfSize:13];
-    text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    text.textColor = [UVStyleSheet instance].placeholderColor;
 
     NSArray *constraints = @[
         @"|-16-[avatar(==40)]-[name]",
@@ -214,7 +214,9 @@
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.backgroundView = [[UIView alloc] initWithFrame:cell.frame];
+    cell.backgroundView.backgroundColor = [UVStyleSheet instance].cellBackground;
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
+    label.textColor = [UVStyleSheet instance].textMain;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
@@ -232,6 +234,7 @@
     UILabel *category = [UILabel new];
     category.font = [UIFont systemFontOfSize:13];
     category.text = _suggestion.category.name ? [NSString stringWithFormat:@"%@ / %@", NSLocalizedStringFromTableInBundle(@"Feedback", @"UserVoice", [UserVoice bundle], nil), _suggestion.category.name] : NSLocalizedStringFromTableInBundle(@"Feedback", @"UserVoice", [UserVoice bundle], nil);
+    category.textColor = [UVStyleSheet instance].placeholderColor;
     category.adjustsFontSizeToFitWidth = YES;
     category.minimumScaleFactor = 0.5;
     category.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
@@ -239,10 +242,12 @@
     UILabel *title = [UILabel new];
     title.font = [UIFont boldSystemFontOfSize:17];
     title.text = _suggestion.title;
+    title.textColor = [UVStyleSheet instance].textMain;
     title.numberOfLines = 0;
 
     UVTruncatingLabel *desc = [UVTruncatingLabel new];
     desc.font = [UIFont systemFontOfSize:14];
+    desc.textColor = [UVStyleSheet instance].textMain;
     desc.fullText = _suggestion.text;
     desc.delegate = self;
     desc.tag = SUGGESTION_DESCRIPTION;
@@ -277,7 +282,7 @@
 
     UILabel *date = [UILabel new];
     date.font = [UIFont systemFontOfSize:12];
-    date.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+    date.textColor = [UVStyleSheet instance].placeholderColor;
     date.text = [NSDateFormatter localizedStringFromDate:_suggestion.responseCreatedAt dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterNoStyle];
     
     if ([_suggestion.responseText length] > 0) {
@@ -286,7 +291,7 @@
 
         UVTruncatingLabel *text = [UVTruncatingLabel new];
         text.font = [UIFont systemFontOfSize:13];
-        text.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+        text.textColor = [UVStyleSheet instance].textMain;
         text.fullText = _suggestion.responseText;
         text.delegate = self;
         text.tag = ADMIN_RESPONSE;
@@ -294,7 +299,7 @@
         UILabel *admin = [UILabel new];
         admin.font = [UIFont systemFontOfSize:11];
         admin.text = _suggestion.responseUserWithTitle;
-        admin.textColor = [UIColor colorWithRed:0.69f green:0.69f blue:0.72f alpha:1.0f];
+        admin.textColor = [UVStyleSheet instance].placeholderColor;
         admin.adjustsFontSizeToFitWidth = YES;
         admin.minimumScaleFactor = 0.5;
 
@@ -338,9 +343,8 @@
 
 - (void)initCellForAddComment:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Add a comment", @"UserVoice", [UserVoice bundle], nil);
-    if (IOS7) {
-        cell.textLabel.textColor = cell.textLabel.tintColor;
-    }
+    cell.textLabel.tintColor = [UVStyleSheet instance].actionTintColor;
+    cell.textLabel.textColor = [UVStyleSheet instance].actionTintColor;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -452,21 +456,23 @@
     NSArray *constraints;
 
     UIView *footer = [UIView new];
-    footer.backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:0.97f alpha:1.0f];
+    footer.backgroundColor = [UVStyleSheet instance].toolbarBackground;
     UIView *border = [UIView new];
-    border.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.0f];
+    border.backgroundColor = [UVStyleSheet instance].separatorLine;
     UIView *bg = [UIView new];
     bg.translatesAutoresizingMaskIntoConstraints = NO;
     bg.backgroundColor = footer.backgroundColor;
     if (_instantAnswers) {
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:14];
-        people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
+        people.textColor = [UVStyleSheet instance].redMain;
         people.backgroundColor = [UIColor clearColor];
         _subscriberCount = people;
 
-        UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
-
+        UIImage *heartImage = [[UVUtils imageNamed:@"uv_heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImageView *heart = [[UIImageView alloc] initWithImage:heartImage];
+        heart.tintColor = [UVStyleSheet instance].redMain;
+        
         UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTableInBundle(@"this idea", @"UserVoice", [UserVoice bundle], nil);
         this.font = people.font;
@@ -499,14 +505,18 @@
         want.text = NSLocalizedStringFromTableInBundle(@"I want this!", @"UserVoice", [UserVoice bundle], nil);
         want.font = [UIFont systemFontOfSize:16];
         want.backgroundColor = [UIColor clearColor];
+        want.textColor = [UVStyleSheet instance].textMain;
 
         UILabel *people = [UILabel new];
         people.font = [UIFont systemFontOfSize:13];
         people.textColor = [UIColor colorWithRed:0.58f green:0.58f blue:0.60f alpha:1.0f];
         people.backgroundColor = [UIColor clearColor];
+        people.textColor = [UVStyleSheet instance].redMain;
         _subscriberCount = people;
 
-        UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
+        UIImage *heartImage = [[UVUtils imageNamed:@"uv_heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImageView *heart = [[UIImageView alloc] initWithImage:heartImage];
+        heart.tintColor = [UVStyleSheet instance].redMain;
 
         UILabel *this = [UILabel new];
         this.text = NSLocalizedStringFromTableInBundle(@"this", @"UserVoice", [UserVoice bundle], nil);

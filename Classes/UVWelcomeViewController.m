@@ -39,6 +39,7 @@
     NSInteger _filter;
     BOOL _allHelpRowsLoaded;
     BOOL _loadingHelpContent;
+    UITextField *_searchTextField;
 }
 
 - (BOOL)showArticles {
@@ -48,30 +49,31 @@
 #pragma mark ===== table cells =====
 
 - (void)initCellForContact:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Send us a message", @"UserVoice", [UserVoice bundle], nil);
-    if (IOS7) {
-        cell.textLabel.textColor = cell.textLabel.tintColor;
-    }
+    cell.textLabel.tintColor = [UVStyleSheet instance].actionTintColor;
+    cell.textLabel.textColor = cell.textLabel.tintColor;
 }
 
 - (void)initCellForPostIdea:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Post an idea", @"UserVoice", [UserVoice bundle], nil);
-    if (IOS7) {
-        cell.textLabel.textColor = cell.textLabel.tintColor;
-    }
+    cell.textLabel.tintColor = [UVStyleSheet instance].actionTintColor;
+    cell.textLabel.textColor = [UVStyleSheet instance].actionTintColor;
 }
 
 - (void)initCellForForum:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"Feedback Forum", @"UserVoice", [UserVoice bundle], nil);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.textColor = [UVStyleSheet instance].textMain;
+    cell.textLabel.tintColor = [UVStyleSheet instance].actionTintColor;
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
+    label.textColor = [UVStyleSheet instance].textMain;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];
@@ -96,7 +98,7 @@
 }
 
 - (void)customizeCellForTopic:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     if (indexPath.row == [[UVSession currentSession].topics count]) {
         cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"All Articles", @"UserVoice", [UserVoice bundle], nil);
         cell.detailTextLabel.text = nil;
@@ -105,22 +107,27 @@
         cell.textLabel.text = topic.name;
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", (int)topic.articleCount];
     }
+    cell.textLabel.textColor = [UVStyleSheet instance].textMain;
+    cell.detailTextLabel.textColor = [UVStyleSheet instance].placeholderColor;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)customizeCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     UVArticle *article = [[UVSession currentSession].articles objectAtIndex:indexPath.row];
     cell.textLabel.text = article.question;
-    cell.imageView.image = [UVUtils imageNamed:@"uv_article.png"];
+    cell.imageView.image = [[UVUtils imageNamed:@"uv_article.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    cell.imageView.tintColor = [UVStyleSheet instance].actionTintColor;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.numberOfLines = 2;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:13.0];
+    cell.textLabel.textColor = [UVStyleSheet instance].textMain;
 }
 
 - (void)initCellForFlash:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.textLabel.text = NSLocalizedStringFromTableInBundle(@"View idea", @"UserVoice", [UserVoice bundle], nil);
+    cell.textLabel.textColor = [UVStyleSheet instance].textMain;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
@@ -223,6 +230,17 @@
     return 30;
 }
 
+- (void) tableView: (UITableView*) tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if(![view isKindOfClass:[UITableViewHeaderFooterView class]]){
+        return;
+    }
+    
+    UITableViewHeaderFooterView *tableViewHeaderFooterView = (UITableViewHeaderFooterView *) view;
+    UILabel* label = tableViewHeaderFooterView.textLabel;
+    label.textColor = [UVStyleSheet instance].textMain;
+}
+
+
 - (void)logoTapped {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.uservoice.com/ios"]];
 }
@@ -318,6 +336,10 @@
         _searchController.searchResultsUpdater = self;
         [_searchController.searchBar sizeToFit];
         _searchController.searchBar.delegate = self;
+        _searchController.searchBar.barTintColor = [UVStyleSheet instance].searchBarBarTintColor;
+        _searchController.searchBar.tintColor = [UVStyleSheet instance].searchBarTintColor;
+        [_searchController.searchBar setSearchTextPositionAdjustment:UIOffsetMake(8, 0)];
+        
         _searchController.searchBar.placeholder = NSLocalizedStringFromTableInBundle(@"Search", @"UserVoice", [UserVoice bundle], nil);
         if ([UVSession currentSession].config.showForum) {
             _searchController.searchBar.scopeButtonTitles = @[NSLocalizedStringFromTableInBundle(@"All", @"UserVoice", [UserVoice bundle], nil), NSLocalizedStringFromTableInBundle(@"Articles", @"UserVoice", [UserVoice bundle], nil), NSLocalizedStringFromTableInBundle(@"Ideas", @"UserVoice", [UserVoice bundle], nil)];
@@ -350,6 +372,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [_tableView reloadData];
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    if (!_searchTextField) {
+        _searchTextField = [_searchController.searchBar valueForKey:@"searchField"];
+        _searchTextField.layer.cornerRadius = 10.f;
+        _searchTextField.layer.masksToBounds = YES;
+    }
 }
 
 - (void)dealloc {

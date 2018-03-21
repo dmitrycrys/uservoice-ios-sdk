@@ -108,10 +108,12 @@
         _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
         _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _emailField.text = self.userEmail;
+        _emailField.textColor = [UVStyleSheet instance].textViewTextColor;
 
         _nameField = [_fieldsView addFieldWithLabel:NSLocalizedStringFromTableInBundle(@"Name", @"UserVoice", [UserVoice bundle], nil)];
         _nameField.placeholder = NSLocalizedStringFromTableInBundle(@"“Anonymous”", @"UserVoice", [UserVoice bundle], nil);
         _nameField.text = self.userName;
+        _nameField.textColor = [UVStyleSheet instance].textViewTextColor;
     }
 
     [self configureView:view

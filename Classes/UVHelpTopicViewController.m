@@ -80,10 +80,11 @@
 }
 
 - (void)initCellForArticle:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     UILabel *label = [UILabel new];
     label.numberOfLines = 0;
+    label.textColor = [UVStyleSheet instance].textMain;
     label.tag = LABEL;
     if (_topic) {
         [self configureView:cell.contentView
@@ -92,7 +93,7 @@
     } else {
         UILabel *topic = [UILabel new];
         topic.font = [UIFont systemFontOfSize:12];
-        topic.textColor = [UIColor grayColor];
+        topic.textColor = [UVStyleSheet instance].placeholderColor;
         topic.tag = TOPIC;
         [self configureView:cell.contentView
                    subviews:NSDictionaryOfVariableBindings(label, topic)
@@ -113,8 +114,9 @@
 }
 
 - (void)initCellForLoad:(UITableViewCell *)cell indexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     UILabel *label = [[UILabel alloc] initWithFrame:cell.frame];
+    label.textColor = [UVStyleSheet instance].textMain;
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:16];

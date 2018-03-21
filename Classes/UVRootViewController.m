@@ -79,7 +79,7 @@
     loading.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin;
     UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     if ([activity respondsToSelector:@selector(setColor:)]) {
-        [activity setColor:[UIColor grayColor]];
+        [activity setColor:[UVStyleSheet instance].actionTintColor];
     } else {
         activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
@@ -89,7 +89,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, loading.frame.size.width, 20)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:15];
-    label.textColor = [UIColor darkGrayColor];
+    label.textColor = [[UVStyleSheet instance] placeholderColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = NSLocalizedStringFromTableInBundle(@"Loading...", @"UserVoice", [UserVoice bundle], nil);
     [label sizeToFit];

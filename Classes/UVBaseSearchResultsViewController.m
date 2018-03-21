@@ -7,6 +7,7 @@
 //
 
 #import "UVBaseSearchResultsViewController.h"
+#import "UVStyleSheet.h"
 
 @interface UVBaseSearchResultsViewController ()
 - (UITableViewCell *)setupCellForRow:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath;
@@ -29,6 +30,7 @@
         noResultsLabel.text = @"No Results";
         noResultsLabel.textAlignment = NSTextAlignmentCenter;
         [noResultsLabel sizeToFit];
+        noResultsLabel.textColor = [UVStyleSheet instance].placeholderColor;
         return noResultsLabel;
     } else {
         return nil;

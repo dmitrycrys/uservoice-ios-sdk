@@ -127,21 +127,29 @@
 }
 
 - (void)initCellForSuggestion:(UITableViewCell *)cell finalCondition:(BOOL)final {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (IOS7) {
         cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
     }
-    UIImageView *icon = [UVUtils imageViewWithImageNamed:@"uv_idea.png"];
-    UIImageView *heart = [UVUtils imageViewWithImageNamed:@"uv_heart.png"];
+    
+    UIImage *ideaImage = [[UVUtils imageNamed:@"uv_idea.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImageView *icon = [[UIImageView alloc] initWithImage:ideaImage];
+    icon.tintColor = [UVStyleSheet instance].actionTintColor;
+    
+    UIImage *heartImage = [[UVUtils imageNamed:@"uv_heart.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImageView *heart = [[UIImageView alloc] initWithImage:heartImage];
+    heart.tintColor = [UVStyleSheet instance].redMain;
+    
     UILabel *subs = [UILabel new];
     subs.font = [UIFont systemFontOfSize:14];
-    subs.textColor = [UIColor grayColor];
+    subs.textColor = [UVStyleSheet instance].redMain;
     subs.tag = SUBSCRIBER_COUNT;
     UILabel *title = [UILabel new];
     title.numberOfLines = 0;
     title.tag = TITLE;
     title.font = [UIFont systemFontOfSize:17];
+    title.textColor = [UVStyleSheet instance].textMain;
     UILabel *status = [UILabel new];
     status.font = [UIFont systemFontOfSize:11];
     status.tag = STATUS;
@@ -183,19 +191,22 @@
 }
 
 - (void)initCellForArticle:(UITableViewCell *)cell finalCondition:(BOOL)final {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UVStyleSheet instance].cellBackground;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (IOS7) {
         cell.separatorInset = UIEdgeInsetsMake(0, 58, 0, 0);
     }
-    UIImageView *icon = [UVUtils imageViewWithImageNamed:@"uv_article.png"];
+    UIImage *ideaImage = [[UVUtils imageNamed:@"uv_article.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImageView *icon = [[UIImageView alloc] initWithImage:ideaImage];
+    icon.tintColor = [UVStyleSheet instance].actionTintColor;
     UILabel *title = [UILabel new];
     title.font = [UIFont systemFontOfSize:18];
     title.numberOfLines = 0;
     title.tag = TITLE;
+    title.textColor = [UVStyleSheet instance].textMain;
     UILabel *section = [UILabel new];
     section.font = [UIFont systemFontOfSize:12];
-    section.textColor = [UIColor grayColor];
+    section.textColor = [UVStyleSheet instance].placeholderColor;
     section.tag = SECTION;
     NSArray *constraints = @[
         @"|-15-[icon(==28)]-15-[title]-|",

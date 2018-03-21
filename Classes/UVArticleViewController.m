@@ -49,26 +49,28 @@
     _webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerHeight, 0);
 
     UIView *footer = [UIView new];
-    footer.backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:0.97f alpha:1.0f];
+    footer.backgroundColor = [UVStyleSheet instance].toolbarBackground;
     UIView *bg = [UIView new];
     bg.backgroundColor = footer.backgroundColor;
     bg.translatesAutoresizingMaskIntoConstraints = NO;
     UIView *border = [UIView new];
-    border.backgroundColor = [UIColor colorWithRed:0.85f green:0.85f blue:0.85f alpha:1.0f];
+    border.backgroundColor = [UVStyleSheet instance].separatorLine;
     UILabel *label = [UILabel new];
     label.text = NSLocalizedStringFromTableInBundle(@"Was this article helpful?", @"UserVoice", [UserVoice bundle], nil);
     label.font = [UIFont systemFontOfSize:13];
-    label.textColor = [UIColor colorWithRed:0.41f green:0.42f blue:0.43f alpha:1.0f];
+    label.textColor = [UVStyleSheet instance].placeholderColor;
     label.backgroundColor = [UIColor clearColor];
     _footerLabel = label;
     UIButton *yes = [UIButton new];
     [yes setTitle:NSLocalizedStringFromTableInBundle(@"Yes!", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
-    [yes setTitleColor:(IOS7 ? yes.tintColor : [UIColor colorWithRed:0.0 green:0.5 blue:1.0 alpha:1.0]) forState:UIControlStateNormal];
+    yes.tintColor = [UVStyleSheet instance].actionTintColor;
+    [yes setTitleColor:[UVStyleSheet instance].actionTintColor forState:UIControlStateNormal];
     [yes addTarget:self action:@selector(yesButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     _yes = yes;
     UIButton *no = [UIButton new];
     [no setTitle:NSLocalizedStringFromTableInBundle(@"No", @"UserVoice", [UserVoice bundle], nil) forState:UIControlStateNormal];
-    [no setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    no.tintColor = [UVStyleSheet instance].disabledActionTintColor;
+    [no setTitleColor:[UVStyleSheet instance].disabledActionTintColor forState:UIControlStateNormal];
     [no addTarget:self action:@selector(noButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     _no = no;
     NSArray *constraints = @[

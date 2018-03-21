@@ -20,13 +20,13 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.26f green:0.31f blue:0.35f alpha:1.0f];
     UILabel *title = [UILabel new];
     title.text = _titleText;
-    title.textColor = [UIColor whiteColor];
+    title.textColor = [[UVStyleSheet instance] textMain];
     title.font = [UIFont systemFontOfSize:26];
     title.textAlignment = NSTextAlignmentCenter;
     title.backgroundColor = [UIColor clearColor];
     UILabel *text = [UILabel new];
     text.text = _text;
-    text.textColor = [UIColor whiteColor];
+    text.textColor = [[UVStyleSheet instance] textMain];
     text.font = [UIFont systemFontOfSize:15];
     text.numberOfLines = 0;
     text.textAlignment = NSTextAlignmentCenter;
@@ -41,7 +41,7 @@
     [button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     UILabel *power = [UILabel new];
     power.text = NSLocalizedStringFromTableInBundle(@"Powered by UserVoice", @"UserVoice", [UserVoice bundle], nil);
-    power.textColor = [UIColor grayColor];
+    power.textColor = [UVStyleSheet instance].placeholderColor;
     power.font = [UIFont systemFontOfSize:13];
     power.textAlignment = NSTextAlignmentCenter;
     power.backgroundColor = [UIColor clearColor];
