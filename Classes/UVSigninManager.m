@@ -54,6 +54,8 @@
     textField.keyboardType = UIKeyboardTypeEmailAddress;
     textField.returnKeyType = UIReturnKeyDone;
     textField.delegate = self;
+    textField.textColor = UIColor.blackColor;
+    textField.tintColor = nil;
     [_alertView show];
 }
 
@@ -81,6 +83,8 @@
     UITextField *textField = [_alertView textFieldAtIndex:0];
     textField.returnKeyType = UIReturnKeyDone;
     textField.delegate = self;
+    textField.textColor = UIColor.blackColor;
+    textField.tintColor = nil;
     
     [_alertView show];
 }
