@@ -54,6 +54,7 @@
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Description (optional)", @"UserVoice", [UserVoice bundle], nil);
     _fieldsView.textView.placeholderLabel.textColor = [UVStyleSheet instance].placeholderColor;
     _fieldsView.textView.textColor = [UVStyleSheet instance].textMain;
+    _fieldsView.textView.backgroundColor = UIColor.clearColor;
 
     UIView *sep = [UIView new];
     sep.backgroundColor = [UVStyleSheet instance].separatorLine;
