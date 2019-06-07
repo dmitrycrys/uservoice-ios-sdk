@@ -46,6 +46,7 @@
     _fieldsView.textView.placeholder = NSLocalizedStringFromTableInBundle(@"Give feedback or ask for help...", @"UserVoice", [UserVoice bundle], nil);
     _fieldsView.textView.placeholderLabel.textColor = [UVStyleSheet instance].placeholderColor;
     _fieldsView.textView.textColor = [UVStyleSheet instance].textMain;
+    _fieldsView.textView.backgroundColor = UIColor.clearColor;
     _fieldsView.textViewDelegate = self;
     [self configureView:view
                subviews:NSDictionaryOfVariableBindings(_fieldsView)
