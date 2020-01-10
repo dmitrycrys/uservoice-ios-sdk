@@ -14,6 +14,7 @@
 @interface UVConfig ()
 
 @property (nonatomic, strong) NSMutableArray *attachments;
+@property (nonatomic, assign) BOOL useHTTPS;
 
 @end
 
@@ -48,6 +49,7 @@
         _key = theKey;
         _site = saneURL;
         _secret = theSecret;
+        _useHTTPS = [theSite rangeOfString:@"https"].location != NSNotFound;
         _showForum = YES;
         _showPostIdea = YES;
         _showContactUs = YES;
