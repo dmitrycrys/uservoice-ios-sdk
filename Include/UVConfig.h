@@ -18,6 +18,7 @@
 + (UVConfig *)configWithSite:(NSString *)site andKey:(NSString *)key andSecret:(NSString *)secret andEmail:(NSString *)email andDisplayName:(NSString *)displayName andGUID:(NSString *)guid;
 
 @property (nonatomic, retain) NSString *site;
+@property (nonatomic, readonly) BOOL useHTTPS;
 @property (nonatomic, retain) NSString *key;
 @property (nonatomic, retain) NSString *secret;
 @property (nonatomic, retain) NSString *ssoToken;

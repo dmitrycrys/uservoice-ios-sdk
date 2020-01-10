@@ -31,9 +31,7 @@
 }
 
 + (NSURL *)baseURL {
-    NSRange range = [[UVSession currentSession].config.site rangeOfString:@".uservoice.com"];
-    BOOL useHttps = range.location != NSNotFound;
-    return [self siteURLWithHTTPS:useHttps];
+    return [self siteURLWithHTTPS:[UVSession currentSession].config.useHTTPS];
 }
 
 + (NSMutableDictionary *)mergedOptions:(NSDictionary *)options {
